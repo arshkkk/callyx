@@ -19,13 +19,26 @@ model User {
   lastName     String
   email        String        @unique()
   availability Availability?
+  EventType    EventType[]
 }
 
 model Availability {
-  id            String @id @default(uuid())
-  timeZone      String
-  workingHours  Json
-  dateOverrides Json
-  userId        String @unique
-  user          User   @relation(fields: [userId], references: [id])
+  id             String @id @default(uuid())
+  timeZone       String
+  timeZoneOffset Int
+  workingHours   Json
+  dateOverrides  Json
+  userId         String @unique
+  user           User   @relation(fields: [userId], references: [id])
+}
+
+model EventType {
+  id                String  @id @default(uuid())
+  title             String
+  description       String?
+  slug              String
+  durationInMinutes Int
+  meetingLink       String
+  userId            String
+  user              User    @relation(fields: [userId], references: [id])
 }
