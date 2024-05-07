@@ -12,20 +12,15 @@ const availabilitySchema = z.object({
       availability: z.array(period),
     }),
   ),
-  dateOverrides: z
-    .array(
-      z.object({
-        date: z
-          .string()
-          .datetime()
-          .transform((dateString) => new Date(dateString)),
-        availability: z.array(period),
-      }),
-    )
-    // filter out overrides without any actual start and end times
-    .transform((dateOverrides) =>
-      dateOverrides.filter((data) => data.availability.length > 0),
-    ),
+  dateOverrides: z.array(
+    z.object({
+      date: z
+        .string()
+        .datetime()
+        .transform((dateString) => new Date(dateString)),
+      availability: z.array(period),
+    }),
+  ),
 });
 
 export default availabilitySchema;
