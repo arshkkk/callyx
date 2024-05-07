@@ -5,7 +5,6 @@ const eventTypeSchema = z.object({
   description: z.string().max(200).optional(),
   slug: z.string().max(25),
   durationInMinutes: z.number().min(10).max(600),
-  meetingLink: z.string().url(),
 });
 
 export default eventTypeSchema;

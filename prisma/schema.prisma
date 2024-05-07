@@ -14,12 +14,13 @@ datasource db {
 }
 
 model User {
-  id           String        @id @default(uuid())
-  firstName    String
-  lastName     String
-  email        String        @unique()
-  availability Availability?
-  EventType    EventType[]
+  id            String         @id @default(uuid())
+  firstName     String
+  lastName      String
+  email         String         @unique()
+  availability  Availability?
+  events        EventType[]
+  eventBookings EventBooking[]
 }
 
 model Availability {
@@ -33,12 +34,32 @@ model Availability {
 }
 
 model EventType {
-  id                String  @id @default(uuid())
+  id                String         @id @default(uuid())
   title             String
   description       String?
   slug              String
   durationInMinutes Int
-  meetingLink       String
   userId            String
-  user              User    @relation(fields: [userId], references: [id])
+  user              User           @relation(fields: [userId], references: [id])
+  eventBookings     EventBooking[]
+}
+
+model EventBooking {
+  id          String     @id @default(uuid())
+  start       String
+  end         String
+  context     String?
+  eventType   EventType  @relation(fields: [eventTypeId], references: [id])
+  attendees   Attendee[]
+  user        User       @relation(fields: [userId], references: [id])
+  userId      String
+  eventTypeId String
+}
+
+model Attendee {
+  id             String       @id @default(uuid())
+  email          String
+  name           String
+  eventBooking   EventBooking @relation(fields: [eventBookingId], references: [id])
+  eventBookingId String
 }
